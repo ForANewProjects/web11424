@@ -31,7 +31,7 @@ $ node app.js
 ```
 
 ## Link to github repo
-* https://github.com/ForANewProjects/web11424
+* https://github.com/ForANewProjects/web11424.git
 
 ## Link to the Website URL
-https://github.com/ForANewProjects/web11424.git
+* https://web11424.herokuapp.com/
