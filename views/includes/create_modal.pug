@@ -1,0 +1,48 @@
+<!-- ============ -->
+<!-- Create Modal -->
+<!-- ============ -->
+div(class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true")
+  div(class="modal-dialog")
+    div(class="modal-content")
+      div(class="modal-header")
+        h5(class="modal-title" id="createModalLabel") Create a cheque
+        button(type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close")
+      form(action='/create/' method='POST')
+        div(class="modal-body pt-2")
+          div(class="mb-3")
+            label(for="recipient-name" class="col-form-label") Title:
+            input(type="text" class="form-control" id="recipient-name" name='title')
+          div(class="mb-2")
+            label(for="message-text" class="col-form-label") Remainder:
+            textarea(class="form-control" id="message-text" rows='4' name='reminder')
+          div(class='mb-2 row w-100 m-auto')
+            div(class='col-4 ps-0')
+              label( for='cheque-price' class="col-form-label") Price
+              input(type="number" class="form-control" id="cheque-price" name='price')  
+            div(class='col-4 ps-0')
+              label( for='cheque-wallet' class="col-form-label") Price
+              div(class="input-group")
+                select(class="form-select" id="cheque-wallet" name='wallet')
+                  option(selected disabled) Wallet..
+                  option(value="1") Regular
+                  option(value="2") Investment
+            div(class='col-4 ps-0')
+              label( for='cheque-category' class="col-form-label") Category
+              div(class="input-group")
+                select(class="form-select" id="cheque-category" name='category')
+                  option(selected disabled) Category..
+                  option(value="1") Bills
+                  option(value="2") Shopping
+                  option(value="3") Restaurant
+                  option(value="4") Education
+
+
+
+
+
+        div(class="modal-footer")
+          button(type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal") Close
+          button(type="submit" class="btn btn-primary") Send message
+<!-- ============ -->
+<!-- Create Modal -->
+<!-- ============ -->

@@ -1,0 +1,44 @@
+<!-- ============ -->
+<!-- Update Modal -->
+<!-- ============ -->
+div(class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true")
+  div(class="modal-dialog")
+    div(class="modal-content")
+      div(class="modal-header")
+        h5(class="modal-title" id="updateModalLabel") Update a cheque
+        button(type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close")
+      form(method='POST' id='cheque-update-form')
+        div(class="modal-body")
+          div(class="mb-3")
+            label(for="cheque-title" class="col-form-label") Title:
+            input(type="text" class="form-control" id="cheque-title" name='title')
+          div(class="mb-3")
+            label(for="cheque-reminder" class="col-form-label") Reminder:
+            textarea(class="form-control" id="cheque-reminder" rows='4' name='reminder')
+          div(class='mb-2 row w-100 m-auto')
+            div(class='col-4 ps-0')
+              label( for='cheque-update-price' class="col-form-label") Price
+              input(type="number" class="form-control" id="cheque-update-price" name='price')  
+            div(class='col-4 ps-0')
+              label( for='cheque-update-wallet' class="col-form-label") Price
+              div(class="input-group")
+                select(class="form-select" id="cheque-update-wallet" name='wallet')
+                  option(selected disabled) Wallet..
+                  option(value="1") Regular
+                  option(value="2") Investment
+            div(class='col-4 ps-0')
+              label( for='cheque-update-category' class="col-form-label") Category
+              div(class="input-group")
+                select(class="form-select" id="cheque-update-category" name='category')
+                  option(selected disabled) Category..
+                  option(value="1") Bills
+                  option(value="2") Shopping
+                  option(value="3") Restaurant
+                  option(value="4") Education
+
+        div(class="modal-footer")
+          button(type="button" class="btn btn-secondary" data-bs-dismiss="modal") Close
+          button(type="submit" class="btn btn-primary") Save changes
+<!-- ============ -->
+<!-- Update Modal -->
+<!-- ============ -->

@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "express": "^4.18.1",
+    "pug": "^3.0.2",
+    "sequelize": "^6.20.1",
+    "sqlite3": "^5.0.8"
+  },
+  "name": "00011424_web",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

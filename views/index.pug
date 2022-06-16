@@ -1,0 +1,164 @@
+extends base.pug 
+block content 
+    div(class='row justify-content-between align-items-start w-100 m-auto')
+        div(class='col-12 col-md-8 px-0 bg-main')
+            include includes/navbar.pug
+
+            //- CURRENT ACCOUNT DIV
+            div(class='current-wallet py-2 pt-0 row justify-content-between align-items-start w-100 m-auto p-3 mb-2')
+                div(class='col-12 col-sm-6 col-md-8 d-flex flex-row justify-content-start align-items-center')
+                    i(class="fa-solid fa-wallet fs-2" style='color: rgb(251,109,58)')
+                    h5(class='mx-2 ps-2 h5 m-0 d-inline-block')
+                        if currectCategory == 1
+                            a(class='text-decoration-none' href='/c/1/') Regular wallet
+                        else if currectCategory == 2
+                            a(class='text-decoration-none' href='/c/2/') Investment wallet
+                        else    
+                            a(class='text-decoration-none' href='/c/all/') All wallets
+                    
+                div(class='col-12 col-sm-6 col-md-4 text-start text-sm-end ps-0')
+                    div(class="dropdown dropstart")
+                        span(class="dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false") Accounts
+                        ul(class="dropdown-menu" aria-labelledby="dropdownMenuButton1")
+                            if currectCategory == 1
+                                li
+                                    a(class="dropdown-item disabled") Regular wallet
+                            else 
+                                li
+                                    a(class="dropdown-item" href="/c/1/") Regular wallet
+                            if currectCategory == 2
+                                li
+                                    a(class="dropdown-item disabled") Investment wallet
+                            else 
+                                li
+                                    a(class="dropdown-item" href='/c/2/') Investment wallet
+                            if currectCategory == 'all'
+                                li
+                                    a(class="dropdown-item disabled") All
+                            else
+                                li
+                                    a(class="dropdown-item" href="/c/all/") All
+                     
+            //- CURRENT ACCOUNT PAYMENT HISTORY
+            div(class='row justify-content-start align-items-center px-3 text-center py-2')
+                div(class='col-6 col-sm-4 col-md-3 mb-2 mb-sm-0' onclick='showEducation()')
+                    span(class='badge bg-light px-5 py-2 text-dark') Education 
+                div(class='col-6 col-sm-4 col-md-3 mb-2 mb-sm-0' onclick='showRestaurant()')
+                    span(class='badge bg-light px-5 py-2 text-dark' ) Restaurant
+                div(class='col-6 col-sm-4 col-md-3 mb-2 mb-sm-0' onclick='showShopping()')
+                    span(class='badge bg-light px-5 py-2 text-dark') Shopping 
+                div(class='col-6 col-sm-4 col-md-3 mb-2 mb-sm-0' onclick='showBills()')
+                    span(class='badge bg-light px-5 py-2 text-dark') Bills 
+
+
+            div(class='row justify-content-between align-items-center w-100 m-auto px-3 mb-3')
+                div(class='col-12 col-sm-6 col-md-4')
+                    span Januray 15, 2022
+                div(class='col-12 col-sm-6 col-md-8')
+                    div(class='row justify-content-start justify-content-sm-end align-items-center')
+                        div(class='col-auto')
+                            if spendings
+                                - let total = spendings.length
+                                    if total > 9
+                                        span Number of transactions: #{total}
+                                    else 
+                                        span Number of transactions: 0#{total}
+                        div(class='col-auto')
+                            - let total = 0
+                            if spendings
+                                each spending in spendings
+                                    - let single = spending.price 
+                                    - total = total + single 
+                             
+                            span Total: $#{total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                        
+                        
+            div(class='row justify-content-start align-items-start w-100 m-auto px-3')
+                i(class="fa-regular fa-plus p-2 pr-5 col-1 pointer" style='font-weight: 600' data-bs-toggle="modal" data-bs-target="#createModal" data-bs-whatever="@create")
+                
+                if spendings
+                    each cheque in spendings
+                        div(class=`col-12 p-3 border-10 bg-white my-2 category-${cheque.category} wallet-${cheque.wallet}`)
+                            div(class='d-flex flex-row justify-content-between align-items-center' id='cheque-reminder-wrapper')
+
+                                div(class='row justify-content-start align-items-center ')
+                                    div(class='col-auto')
+                                        i(class="fa-solid fa-dollar-sign p-2 px-3 fs-5 rounded" style='background-color: rgb(8,182,129)')
+                                    div(class='col-auto' )
+                                        div(class='d-flex flex-column justify-content-start align-items-start')
+                                            div(class='')
+                                                h6.m-0 
+                                                    a(class='text-decoration-none text-dark' href=`/transaction/${cheque.id}`) #{cheque.title}
+                                            div(class='')
+                                                span(class='text-muted' style='font-size: 14px') #{cheque.createdAt.toString().slice(4,15)}
+                                        
+
+                                div(class='row justify-content-start align-items-center ' style='position: relative')
+                                    div(class='col-auto')
+                                        span 
+                                            strong $#{cheque.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                                    div(class='col-auto')
+                                        div(class='d-flex flex-row justify-content-start align-items-center')
+                                            div(class='')
+                                                i(class="fa-regular fa-bookmark py-2 text-center mx-3 border-10 bookmark-icon")
+                                                i(class="fa-solid fa-xmark py-2 text-center border-10 cancel-icon" onclick='deletee("'+ cheque.id +'")') 
+                                div(class='cheque-reminder-show' data-cheque-reminder class='p-0 m-0')
+                                    span #{cheque.reminder}
+    
+        div(class='col-12 col-md-4 bg-light px-3 py-3 border-start')
+            div(class='d-flex flex-row justify-content-between align-items-center py-2 mb-3')
+                div(class='account-notifications')
+                    i(class="fa-regular fa-bell")
+                    
+                div(class='d-flex flex-row justify-content-end align-items-center')
+                    div(class='user-info')
+                        h5.m-0 John Smith 
+                    div(class='user-img')
+                        i(class="fa-solid fa-user fs-5 bg-warning p-3 py-2 rounded ms-3")
+            div(class='row justify-content-between align-items-center border-bottom border-top py-2')
+                div(class='col-auto')
+                    h4.m-0 Wallet
+                div(class='col-auto pointer' data-bs-toggle="collapse" data-bs-target="#collapseAccount" aria-expanded="false" aria-controls="collapseAccount")
+                    i(class="fa-solid fa-plus fs-5 text-secondary border-secondary p-2 border-")
+            div(class="collapse in show " id="collapseAccount")
+                div(class="card card-body bg-transparent border-0 px-0")
+                    div(class='accounts-container d-flex flex-row justify-content-start align-items-center mb-3' onclick='regularWallet()')
+                        i(class="fa-solid fa-house-user p-2 fs-5 rounded" style='background-color: rgb(112,51,255)')
+                        div(class='account-info w-75 ps-3')
+                            h6.m-0 Regular account
+                            span $#{statisics[0].regular.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    
+                    div(class='accounts-container d-flex flex-row justify-content-start align-items-center' onclick='investmentWallet()')
+                        i(class="fa-solid fa-credit-card p-2 fs-5 rounded" style='background-color: rgb(253,187,163)')
+                        div(class='account-info w-75 ps-3')
+                            h6.m-0 Investment account
+                            span $#{statisics[0].investment.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+
+            div(class='row justify-content-between align-items-center border-bottom border-top py-2 mt-4')
+                div(class='col-auto')
+                    h4.m-0 Categories
+                div(class='col-auto pointer' data-bs-toggle="collapse" data-bs-target="#collapseCategories" aria-expanded="false" aria-controls="collapseCategories")
+                    i(class="fa-solid fa-plus fs-5 text-secondary border-secondary p-2 border-")
+            div(class="collapse in show " id="collapseCategories")
+                div(class="card card-body bg-transparent border-0 px-0")
+                    div(class='accounts-container d-flex flex-row justify-content-start align-items-center mb-3')
+                        i(class="fa-solid fa-money-bill p-2 fs-5 rounded" style='background-color: rgb(233,187,115)')
+                        div(class='account-info w-75 ps-3')
+                            h6.m-0 Bills
+                            span $#{categories[0].bills.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    div(class='accounts-container d-flex flex-row justify-content-start align-items-center mb-3')
+                        i(class="fa-solid fa-cart-shopping p-2 fs-5 rounded" style='background-color: rgb(8,182,129)')
+                        div(class='account-info w-75 ps-3')
+                            h6.m-0 Shopping
+                            span $#{categories[0].shoppings.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    div(class='accounts-container d-flex flex-row justify-content-start align-items-center mb-3')
+                        i(class="fa-solid fa-martini-glass-empty p-2 fs-5 rounded" style='background-color: rgb(253,187,163)')
+                        div(class='account-info w-75 ps-3')
+                            h6.m-0 Restaurant
+                            span $#{categories[0].restaurants.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    div(class='accounts-container d-flex flex-row justify-content-start align-items-center mb-3')
+                        i(class="fa-solid fa-user-graduate p-2 fs-5 rounded" style='background-color: rgb(210,230,252)')
+                        div(class='account-info w-75 ps-3')
+                            h6.m-0 Education
+                            span $#{categories[0].education.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                            
